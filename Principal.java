@@ -1,61 +1,72 @@
 import java.io.BufferedReader;
-import java.io.File;
+
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
+
 public class Principal {
-	File archivo = new File("path");
 	
-	public static void main(String [] arg) {
-	      File archivo = null;
-	      FileReader fr = null;
-	      BufferedReader br = null;
-	      ArrayList<Association> lista = new ArrayList<Association>();
-	      try {
-	         // Apertura del fichero y creacion de BufferedReader para poder
-	         // hacer una lectura comoda (disponer del metodo readLine()).
-	         archivo = new File ("C:\\Users\\Boris\\workspace\\Hoja7\\src\\datos.txt");
-	         fr = new FileReader (archivo);
-	         br = new BufferedReader(fr);
-	 
-	         // Lectura del fichero
-	         String linea;
-	         while((linea=br.readLine())!=null){
-	        	String key="";
-	         	String value="";
-	         	boolean valor = false;
-	        	 for(int x =0; x<linea.length();x++){
-	        		if((!linea.substring(x, x+1).equals("(")) && (!valor)  &&(!linea.substring(x, x+1).equals(",")) ){
-	        			key += linea.substring(x,x+1);
-	        		}else if((!linea.substring(x, x+1).equals(")")) && valor){
-	        			value += linea.substring(x, x+1);
-	        		}else if(linea.substring(x, x+1).equals(",")){
-	        			valor = true;
-	        		}
-	        	 }
-	        	 
-	        	 Association<String,String> asociacion = new Association<String,String>(key,value);
-	            lista.add(asociacion);
-	         }
-	         for(Association<String,String> elemento: lista){
-	        	 System.out.println("Key: "+elemento.getTheKey());
-	         }
-	      }
-	      catch(Exception e){
-	         e.printStackTrace();
-	      }finally{
-	         // En el finally cerramos el fichero, para asegurarnos
-	         // que se cierra tanto si todo va bien como si salta 
-	         // una excepcion.
-	         try{                    
-	            if( null != fr ){   
-	               fr.close();     
-	            }                  
-	         }catch (Exception e2){ 
-	            e2.printStackTrace();
-	         }
-	      }
-	   }
+	private ArrayList<String> arrayAsociacion;
+	private BinaryTreeSet arbolTraductor;
 	
+	public Principal() {
+		super();
+		arrayAsociacion = new ArrayList<String>();
+		// TODO Auto-generated constructor stub
 	}
+
+	public String getArrayAsociacion(int i) {
+		return arrayAsociacion.get(i);
+	}
+	
+
+	public void setArrayAsociacion(ArrayList<String> arrayAsociacion) {
+		this.arrayAsociacion = arrayAsociacion;
+	}
+
+	public void lecturaAsociacion(String texto) throws IOException{
+	        FileReader fr = new FileReader(texto);
+	        @SuppressWarnings("resource")
+			BufferedReader bf = new BufferedReader(fr);
+	        
+	        String linea;
+	         while((linea=bf.readLine())!=null){
+	        	 String ingles = "", espanol = "";
+	        	 boolean siguiente=false;
+	        	 for(int x=0; x<linea.length(); x++){
+	        		 if(linea.substring(x, x+1).equals("(") || linea.substring(x, x+1).equals(")")){}
+	        		 else if(linea.substring(x, x+1).equals(","))
+	        			 siguiente=true;
+	        		 
+	        		 else if(!siguiente)
+	        			 ingles+=linea.substring(x, x+1);
+	        		 else if(siguiente)
+	        			 espanol+=linea.substring(x, x+1);
+	        	 }
+	        	 arbolTraductor.addTranslation(ingles,espanol);
+	        }
+		
+	}
+	
+	public String lecturaTraduccion(String texto) throws IOException{
+		FileReader fr = new FileReader(texto);
+        @SuppressWarnings("resource")
+		BufferedReader bf = new BufferedReader(fr);
+        String linea;
+        String palabra = "", frase = "";
+        while((linea=bf.readLine())!=null){
+        	for(int x=0; x<linea.length(); x++){
+        		if(!linea.substring(x, x+1).equals(" ")){
+        			palabra+=linea.substring(x, x+1);
+       		 	}
+        		else if(linea.substring(x, x+1).equals(" ")){
+        			frase = frase+" "+arbolTraductor.getTranslation(palabra);
+        			palabra="";
+       		 	}
+       	 	}
+        }
+        return frase;
+	}
+}
 	
 
