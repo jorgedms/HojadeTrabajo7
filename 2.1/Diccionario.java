@@ -6,21 +6,25 @@ import java.util.ArrayList;
 
 
 public class Diccionario<P> {
-	private String line, key, value;
+	private String line, key, value,frase;
 	private String[] words;
 	private ArrayList<Association<String,String>> listaA = new ArrayList<Association<String,String>>();
 	private boolean valor;
+	private BinaryT<String> arbolTraductor;
 	
 	public void readTexto(String file) throws FileNotFoundException, Exception{
 		try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+			frase = "";
 		    while ((this.line = br.readLine()) != null) {
 		       words = line.split(" ");
 		       for(int i = 0; i<words.length; i++){
-		    	   System.out.println(words[i]);  
+		    	   System.out.println(words[i]);
+		    	   frase= frase + " " + arbolTraductor.findNode(words[i]);
 		       }
 		    }
 		}
-		System.out.println("readTexto");		
+		System.out.println("readTexto");
+		System.out.println(frase);
 	}
 	
 	public void readDiccionario(String file) throws Exception{
@@ -39,9 +43,9 @@ public class Diccionario<P> {
 		        	}
 		        }
 		     Association<String,String> asociacion = new Association<String,String>(key,value);
-		     listaA.add(asociacion);
 			}
 			 for(Association<String,String> elemento: listaA){
+				 arbolTraductor.addNode(elemento.getTheKey(), elemento.getTheValue());
 	        	 System.out.println("Key: "+elemento.getTheKey());
 	        	 System.out.println("Value: "+elemento.getTheValue());
 	         }
