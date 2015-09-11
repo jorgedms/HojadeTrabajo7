@@ -10,7 +10,7 @@ public class Diccionario<P> {
 	private String[] words;
 	private ArrayList<Association<String,String>> listaA = new ArrayList<Association<String,String>>();
 	private boolean valor;
-	private BinaryT<String> arbolTraductor;
+	private BinaryT<String> arbolTraductor = new BinaryT<String>();
 	
 	public void readTexto(String file) throws FileNotFoundException, Exception{
 		try (BufferedReader br = new BufferedReader(new FileReader(file))) {
@@ -19,7 +19,7 @@ public class Diccionario<P> {
 		       words = line.split(" ");
 		       for(int i = 0; i<words.length; i++){
 		    	   System.out.println(words[i]);
-		    	   frase= frase + " " + arbolTraductor.findNode(words[i]);
+		    	   frase= frase + " " + arbolTraductor.findName(words[i]);
 		       }
 		    }
 		}
@@ -43,12 +43,8 @@ public class Diccionario<P> {
 		        	}
 		        }
 		     Association<String,String> asociacion = new Association<String,String>(key,value);
+		     arbolTraductor.addNode(asociacion.getTheKey(),asociacion.getTheValue());
 			}
-			 for(Association<String,String> elemento: listaA){
-				 arbolTraductor.addNode(elemento.getTheKey(), elemento.getTheValue());
-	        	 System.out.println("Key: "+elemento.getTheKey());
-	        	 System.out.println("Value: "+elemento.getTheValue());
-	         }
 		}
 		System.out.println("readDiccionario");
 	}
