@@ -19,7 +19,13 @@ public class Diccionario<P> {
 		       words = line.split(" ");
 		       for(int i = 0; i<words.length; i++){
 		    	   System.out.println(words[i]);
-		    	   frase= frase + " " + arbolTraductor.findName(words[i]);
+		    	   if(arbolTraductor.findName(words[i])!=null){
+		    		   frase= frase + " " + arbolTraductor.findName(words[i]);   
+		    	   } else {
+		    		   frase= frase +" *"+words[i]+"* ";
+		    	   }
+		    	   
+		    	   
 		       }
 		    }
 		}
