@@ -4,8 +4,8 @@ public class main {
 		// TODO Auto-generated method stub
 		Diccionario<String> nDiccionario = new Diccionario<String>();
 		try{
-			nDiccionario.readTexto("texto.txt");
 			nDiccionario.readDiccionario("diccionario.txt");
+			nDiccionario.readTexto("texto.txt");
 		} catch(Exception e){
 			e.printStackTrace();
 		}
