@@ -27,7 +27,7 @@ public class PruebaJUNIT {
 		
 	}
 	
-	//Test de agregar un nodo, true si no se creo el nodo, false si se creo el nodo
+	//Test de agregar un nodo, true si se creo el nodo, false si no se creo el nodo
 	public boolean addNodo(){
 		return arbol.root != null;
 	}
